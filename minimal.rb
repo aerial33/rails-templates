@@ -37,7 +37,7 @@ RUBY
 
 # Ruby version
 ########################################
-file '.ruby-version', RUBY_VERSION
+file '.ruby-version', RUBY_VERSION, force: true
 
 # Procfile
 ########################################
@@ -117,7 +117,6 @@ file 'app/views/layouts/application.html.erb', <<-HTML
 </html>
 HTML
 
-run 'curl -L https://raw.githubusercontent.com/aerial33/navbars/master/templates/_navbar_wagon_without_login.html.erb > app/views/shared/_navbar.html.erb'
 run 'curl -L https://raw.githubusercontent.com/aerial33/rails-templates/master/logo.png > app/assets/images/logo.png'
 
 # README
