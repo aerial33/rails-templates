@@ -109,12 +109,16 @@ file 'app/views/layouts/application.html.erb', <<-HTML
     <%#= stylesheet_pack_tag 'application', media: 'all' %> <!-- Uncomment if you import CSS in app/javascript/packs/application.js -->
   </head>
   <body>
+    <%= render navbar %>
     <%= yield %>
     <%= javascript_include_tag 'application' %>
     <%= javascript_pack_tag 'application' %>
   </body>
 </html>
 HTML
+
+run 'curl -L https://raw.githubusercontent.com/aerial33/navbars/master/templates/_navbar_wagon_without_login.html.erb > app/views/shared/_navbar.html.erb'
+run 'curl -L https://raw.githubusercontent.com/aerial33/rails-templates/master/logo.png > app/assets/images/logo.png'
 
 # README
 ########################################
