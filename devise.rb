@@ -9,7 +9,6 @@ ruby '#{RUBY_VERSION}'
 
 #{"gem 'bootsnap', require: false" if Rails.version >= "5.2"}
 gem 'devise'
-gem 'figaro'
 gem 'jbuilder', '~> 2.0'
 gem 'pg', '~> 0.21'
 gem 'puma'
@@ -17,9 +16,8 @@ gem 'rails', '#{Rails.version}'
 gem 'redis'
 
 gem 'autoprefixer-rails'
-gem 'bootstrap-sass', '~> 3.3'
-gem 'font-awesome-sass', '~> 4.7'
-gem 'sass-rails'
+gem 'font-awesome-sass', '~> 5.6.1'
+gem 'sassc-rails'
 gem 'simple_form'
 gem 'uglifier'
 gem 'webpacker'
@@ -46,12 +44,6 @@ file '.ruby-version', RUBY_VERSION
 file 'Procfile', <<-YAML
 web: bundle exec puma -C config/puma.rb
 YAML
-
-# Spring conf file
-########################################
-inject_into_file 'config/spring.rb', before: ').each { |path| Spring.watch(path) }' do
-  '  config/application.yml\n'
-end
 
 # Assets
 ########################################
@@ -97,26 +89,30 @@ HTML
 
 file 'app/views/shared/_flashes.html.erb', <<-HTML
 <% if notice %>
-  <div class="alert alert-info alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <div class="alert alert-info alert-dismissible fade show m-1" role="alert">
     <%= notice %>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
 <% end %>
 <% if alert %>
-  <div class="alert alert-warning alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <div class="alert alert-warning alert-dismissible fade show m-1" role="alert">
     <%= alert %>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
 <% end %>
 HTML
 
 run 'curl -L https://raw.githubusercontent.com/lewagon/awesome-navbars/master/templates/_navbar_wagon.html.erb > app/views/shared/_navbar.html.erb'
-run 'curl -L https://raw.githubusercontent.com/lewagon/rails-templates/master/logo.png > app/assets/images/logo.png'
+run 'curl -L https://raw.githubusercontent.com/aerial33/rails-templates/master/logo.png > app/assets/images/logo.png'
 
 # README
 ########################################
 markdown_file_content = <<-MARKDOWN
-Rails app generated with [lewagon/rails-templates](https://github.com/lewagon/rails-templates), created by the [Le Wagon coding bootcamp](https://www.lewagon.com) team.
+Rails app generated with [aerial33/rails-templates](https://github.com/aerial33/rails-templates), created by the [Le Wagon coding bootcamp](https://www.lewagon.com) team.
 MARKDOWN
 file 'README.md', markdown_file_content, force: true
 
@@ -164,6 +160,8 @@ public/packs-test
 node_modules
 yarn-error.log
 .byebug_history
+.env*
+config/master.key
 TXT
 
   # Devise install + user
@@ -206,33 +204,33 @@ RUBY
   # Webpacker / Yarn
   ########################################
   run 'rm app/javascript/packs/application.js'
-  run 'yarn add jquery bootstrap@3'
+  run 'yarn add jquery bootstrap'
   file 'app/javascript/packs/application.js', <<-JS
 import "bootstrap";
 JS
 
   inject_into_file 'config/webpack/environment.js', before: 'module.exports' do
 <<-JS
-// Bootstrap 3 has a dependency over jQuery:
+// Bootstrap 4 has a dependency over jQuery:
 const webpack = require('webpack')
 environment.plugins.prepend('Provide',
   new webpack.ProvidePlugin({
     $: 'jquery',
-    jQuery: 'jquery'
+    jQuery: 'jquery',
+    Popper: ['popper.js', 'default']
   })
 )
 
 JS
   end
 
-  # Figaro
+  # Dotenv
   ########################################
-  run 'bundle binstubs figaro'
-  run 'figaro install'
+  run 'touch .env'
 
   # Git
   ########################################
   git :init
   git add: '.'
-  git commit: "-m 'Initial commit with devise template from https://github.com/lewagon/rails-templates'"
+  git commit: "-m 'Initial commit with devise template from https://github.com/aerial33/rails-templates'"
 end
