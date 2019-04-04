@@ -90,6 +90,7 @@ run 'curl -L https://raw.githubusercontent.com/aerial33/rails-templates/master/l
 ########################################
 markdown_file_content = <<-MARKDOWN
 Rails app generated with [aerial33/rails-templates](https://github.com/aerial33/rails-templates)
+MARKDOWN
 file 'README.md', markdown_file_content, force: true
 
 # Generators
