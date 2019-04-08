@@ -37,7 +37,7 @@ RUBY
 
 # Ruby version
 ########################################
-file '.ruby-version', RUBY_VERSION
+file '.ruby-version', RUBY_VERSION, force: true
 
 # Procfile
 ########################################
@@ -71,7 +71,7 @@ file 'app/views/layouts/application.html.erb', <<-HTML
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>TODO</title>
+    <title>Page title</title>
     <%= csrf_meta_tags %>
     <%= action_cable_meta_tag %>
     <%= stylesheet_link_tag 'application', media: 'all' %>
@@ -160,14 +160,13 @@ public/packs-test
 node_modules
 yarn-error.log
 .byebug_history
-.env*
 config/master.key
 TXT
 
   # Devise install + user
   ########################################
   generate('devise:install')
-  generate('devise', 'User')
+  generate('devise', 'User', 'username')
 
   # App controller
   ########################################
@@ -224,13 +223,10 @@ environment.plugins.prepend('Provide',
 JS
   end
 
-  # Dotenv
-  ########################################
-  run 'touch .env'
 
   # Git
   ########################################
   git :init
   git add: '.'
-  git commit: "-m 'Initial commit with devise template from https://github.com/aerial33/rails-templates'"
+  git commit: "-m 'Initial commit with devise template from aerial33/rails-templates'"
 end
